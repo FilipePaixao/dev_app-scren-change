@@ -7,14 +7,11 @@ import android.widget.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity {
 
     EditText edtDescricao, edtData, edtHora;
     Spinner spinnerPrioridade;
-
-    public static ArrayList<Model> listaTarefas = new ArrayList<>();
+    DBHelper dbHelper; // 🆕 Banco de dados SQLite
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
         edtHora = findViewById(R.id.edtHora);
         spinnerPrioridade = findViewById(R.id.spinnerPrioridade);
 
+        dbHelper = new DBHelper(this); // 🆕 Inicializa o banco
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.opcoes_prioridade, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -33,17 +32,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void salvarTarefa(View view) {
-        String desc = edtDescricao.getText().toString();
-        String data = edtData.getText().toString();
-        String hora = edtHora.getText().toString();
+        String desc = edtDescricao.getText().toString().trim();
+        String data = edtData.getText().toString().trim();
+        String hora = edtHora.getText().toString().trim();
         String prioridade = spinnerPrioridade.getSelectedItem().toString();
 
+        if (desc.isEmpty() || data.isEmpty() || hora.isEmpty()) {
+            Toast.makeText(this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Model tarefa = new Model(desc, data, hora, prioridade);
-        listaTarefas.add(tarefa);
 
-        Toast.makeText(this, "Tarefa salva!", Toast.LENGTH_SHORT).show();
+        dbHelper.inserirTarefa(tarefa); // 🆕 salva no banco
 
-        Intent intent = new Intent(this, ListaTarefasActivity.class);
-        startActivity(intent);
+        Toast.makeText(this, "Tarefa salva no banco!", Toast.LENGTH_SHORT).show();
+
+        // Limpar campos (opcional)
+        edtDescricao.setText("");
+        edtData.setText("");
+        edtHora.setText("");
+        spinnerPrioridade.setSelection(0);
+
+        // Ir para tela de lista
+        startActivity(new Intent(this, ListaTarefasActivity.class));
     }
 }
