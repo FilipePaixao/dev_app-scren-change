@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Troca Tela</string>
+
+    <string-array name="opcoes_prioridade">
+        <item>Alta</item>
+        <item>Média</item>
+        <item>Baixa</item>
+    </string-array>
+</resources>
