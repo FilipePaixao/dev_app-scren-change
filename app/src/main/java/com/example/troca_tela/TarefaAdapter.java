@@ -39,6 +39,7 @@ public class TarefaAdapter extends RecyclerView.Adapter<TarefaAdapter.ViewHolder
         holder.txtDescricao.setText(tarefa.getDescricao());
         holder.txtDataHora.setText("Data: " + tarefa.getData() + "  Hora: " + tarefa.getHora());
         holder.txtPrioridade.setText("Prioridade: " + tarefa.getPrioridade());
+
     }
 
     @Override

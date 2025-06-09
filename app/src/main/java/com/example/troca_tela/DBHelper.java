@@ -24,6 +24,13 @@ public class DBHelper extends SQLiteOpenHelper {
                 "descricao TEXT, data TEXT, hora TEXT, prioridade TEXT)";
         db.execSQL(query);
     }
+    public void excluirTarefa(Model tarefa) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("tarefas", "descricao=? AND data=? AND hora=? AND prioridade=?",
+                new String[]{tarefa.getDescricao(), tarefa.getData(), tarefa.getHora(), tarefa.getPrioridade()});
+        db.close();
+    }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
