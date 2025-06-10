@@ -14,6 +14,7 @@ public class ListaTarefasActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     TarefaAdapter adapter;
     DBHelper dbHelper;
+    int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +25,8 @@ public class ListaTarefasActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         dbHelper = new DBHelper(this);
-        ArrayList<Model> listaTarefas = dbHelper.getTodasTarefas();
+        userId = getIntent().getIntExtra("user_id", -1);
+        ArrayList<Model> listaTarefas = dbHelper.getTarefasUsuario(userId);
 
         adapter = new TarefaAdapter(listaTarefas);
         recyclerView.setAdapter(adapter);

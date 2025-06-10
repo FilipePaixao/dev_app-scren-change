@@ -11,7 +11,8 @@ public class MainActivity extends AppCompatActivity {
 
     EditText edtDescricao, edtData, edtHora;
     Spinner spinnerPrioridade;
-    DBHelper dbHelper; // 🆕 Banco de dados SQLite
+    DBHelper dbHelper; // Banco de dados SQLite
+    int userId; // id do usuário logado
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +24,9 @@ public class MainActivity extends AppCompatActivity {
         edtHora = findViewById(R.id.edtHora);
         spinnerPrioridade = findViewById(R.id.spinnerPrioridade);
 
-        dbHelper = new DBHelper(this); // 🆕 Inicializa o banco
+        dbHelper = new DBHelper(this);
+
+        userId = getIntent().getIntExtra("user_id", -1);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.opcoes_prioridade, android.R.layout.simple_spinner_item);
@@ -44,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         Model tarefa = new Model(desc, data, hora, prioridade);
 
-        dbHelper.inserirTarefa(tarefa); // 🆕 salva no banco
+        dbHelper.inserirTarefa(tarefa, userId); // salva no banco
 
         Toast.makeText(this, "Tarefa salva no banco!", Toast.LENGTH_SHORT).show();
 
@@ -55,6 +58,14 @@ public class MainActivity extends AppCompatActivity {
         spinnerPrioridade.setSelection(0);
 
         // Ir para tela de lista
-        startActivity(new Intent(this, ListaTarefasActivity.class));
+        Intent intent = new Intent(this, ListaTarefasActivity.class);
+        intent.putExtra("user_id", userId);
+        startActivity(intent);
+    }
+
+    public void abrirLista(View view) {
+        Intent intent = new Intent(this, ListaTarefasActivity.class);
+        intent.putExtra("user_id", userId);
+        startActivity(intent);
     }
 }
