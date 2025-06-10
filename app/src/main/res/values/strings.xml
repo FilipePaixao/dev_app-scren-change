@@ -6,4 +6,8 @@
         <item>Média</item>
         <item>Baixa</item>
     </string-array>
+
+    <string name="login">Entrar</string>
+    <string name="register">Registrar</string>
+    <string name="no_account">Cadastrar</string>
 </resources>

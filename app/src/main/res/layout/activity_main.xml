@@ -80,5 +80,13 @@
             android:textSize="16sp"
             android:textColor="@android:color/white"
             android:backgroundTint="#4CAF50" />
+
+        <Button
+            android:id="@+id/btnListar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ver Tarefas"
+            android:onClick="abrirLista"
+            android:layout_marginTop="8dp"/>
     </LinearLayout>
 </ScrollView>
